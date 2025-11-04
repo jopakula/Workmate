@@ -10,11 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun DetailScreen() {
-
+fun DetailScreen(
+    mainViewModel: MainViewModel,
+) {
+    val id =  mainViewModel.selectedCard.value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,7 +26,7 @@ fun DetailScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Detail"
+            text = "Detail $id"
         )
     }
 }
@@ -31,5 +34,5 @@ fun DetailScreen() {
 @Composable
 @Preview
 private fun DetailScreenPreview() {
-    DetailScreen()
+    DetailScreen(mainViewModel = koinViewModel())
 }
