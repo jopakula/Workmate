@@ -10,18 +10,22 @@ import com.work.data.lds.models.CharacterEntity
 @Dao
 interface CharacterDao {
 
-    @Query("SELECT * FROM characters ORDER BY id")
-    fun getAll(): PagingSource<Int, CharacterEntity>
+    // ---------- Пагинация по id ----------
+    @Query("SELECT * FROM characters ORDER BY id ASC")
+    fun pagingSource(): PagingSource<Int, CharacterEntity>
 
-    @Query("""
+    // ---------- Фильтры ----------
+    @Query(
+        """
         SELECT * FROM characters 
         WHERE (:name IS NULL OR name LIKE '%' || :name || '%')
-        AND (:status IS NULL OR status = :status)
-        AND (:species IS NULL OR species = :species)
-        AND (:type IS NULL OR type = :type)
-        AND (:gender IS NULL OR gender = :gender)
-        ORDER BY id
-    """)
+          AND (:status IS NULL OR status = :status)
+          AND (:species IS NULL OR species = :species)
+          AND (:type IS NULL OR type = :type)
+          AND (:gender IS NULL OR gender = :gender)
+        ORDER BY id ASC
+        """
+    )
     fun filter(
         name: String?,
         status: String?,

@@ -14,5 +14,4 @@ interface CharacterRepository {
         gender: String? = null
     ): Flow<PagingData<CharacterDomain>>
 
-    suspend fun syncWithNetwork()
 }
