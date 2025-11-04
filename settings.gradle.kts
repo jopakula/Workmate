@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WorkmateApp"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":uikit")
