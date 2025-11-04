@@ -1,4 +1,4 @@
-package com.work.workmateapp.ui.screens
+package com.work.workmateapp.ui.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,23 +13,23 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun MainScreen() {
+fun DetailScreen() {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Green),
+            .background(Color.Green.copy(alpha = 0.5F)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Main"
+            text = "Detail"
         )
     }
 }
 
 @Composable
 @Preview
-private fun MainScreenPreview() {
-    MainScreen()
+private fun DetailScreenPreview() {
+    DetailScreen()
 }

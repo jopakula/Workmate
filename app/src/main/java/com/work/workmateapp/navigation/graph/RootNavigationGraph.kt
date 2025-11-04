@@ -6,12 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.work.workmateapp.navigation.Graph
-import com.work.workmateapp.navigation.screens.OnboardingScreens
-import com.work.workmateapp.ui.screens.MainScreen
-import com.work.workmateapp.ui.screens.onboarding.Onboarding1Screen
-import com.work.workmateapp.ui.screens.onboarding.Onboarding2Screen
-import com.work.workmateapp.ui.screens.onboarding.Onboarding3Screen
-import com.work.workmateapp.ui.screens.onboarding.SplashScreen
+import com.work.workmateapp.navigation.screens.MainScreens
+import com.work.workmateapp.ui.screens.main.DetailScreen
+import com.work.workmateapp.ui.screens.main.MainScreen
 
 @Composable
 fun RootNavigationGraph(rootNavController: NavHostController) {
@@ -21,55 +18,28 @@ fun RootNavigationGraph(rootNavController: NavHostController) {
         startDestination = Graph.ONBOARDING
     ) {
 
+        onboardingGraph(rootNavController = rootNavController)
+
         navigation(
-            route = Graph.ONBOARDING,
-            startDestination = OnboardingScreens.Splash.route
+            route = Graph.MAIN,
+            startDestination = MainScreens.Main.route
         ){
             composable(
-                route = OnboardingScreens.Splash.route
+                route = MainScreens.Main.route
             ) {
-                SplashScreen(
-                    onSplashComplete = {
-                        rootNavController.navigate(OnboardingScreens.Onboarding1.route)
+                MainScreen(
+                    onClick = {
+                        rootNavController.navigate(MainScreens.Detail.route)
                     }
                 )
             }
+
             composable(
-                route = OnboardingScreens.Onboarding1.route
+                route = MainScreens.Detail.route
             ) {
-                Onboarding1Screen(
-                    onNextClick = {
-                        rootNavController.navigate(OnboardingScreens.Onboarding2.route)
-                    }
-                )
-            }
-            composable(
-                route = OnboardingScreens.Onboarding2.route
-            ) {
-                Onboarding2Screen(
-                    onNextClick = {
-                        rootNavController.navigate(OnboardingScreens.Onboarding3.route)
-                    }
-                )
-            }
-            composable(
-                route = OnboardingScreens.Onboarding3.route
-            ) {
-                Onboarding3Screen(
-                    onFinal = {
-                        rootNavController.navigate(Graph.MAIN){
-                            popUpTo(Graph.ONBOARDING) { inclusive = true }
-                        }
-                    }
-                )
+                DetailScreen()
             }
         }
 
-
-        composable(
-            route = Graph.MAIN
-        ) {
-            MainScreen()
-        }
     }
 }
