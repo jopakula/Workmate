@@ -1,8 +1,8 @@
 package com.work.workmateapp.di
 
 import com.work.data.CharacterRepository
-import com.work.data.HttpClient
-import com.work.data.NetworkApi
+import com.work.data.network.HttpClient
+import com.work.data.network.NetworkApi
 import com.work.data.network.CharacterRepositoryImpl
 import org.koin.dsl.module
 

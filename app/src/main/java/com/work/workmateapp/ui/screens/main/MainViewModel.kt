@@ -1,49 +1,52 @@
 package com.work.workmateapp.ui.screens.main
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.work.data.CharacterRepository
+import com.work.data.network.RequestState
 import com.work.data.network.models.MyCharacter
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val repository: CharacterRepository
 ): ViewModel() {
 
-    private val _characters = mutableStateOf<List<MyCharacter>>(emptyList())
-    val characters: State<List<MyCharacter>> = _characters
+    private val charactersStateMutable = MutableStateFlow<RequestState<List<MyCharacter>>>(RequestState.Idle)
+    val charactersState: StateFlow<RequestState<List<MyCharacter>>> = charactersStateMutable
 
-    private val _isLoading = mutableStateOf(false)
-    val isLoading: State<Boolean> = _isLoading
+    private val charactersList = mutableListOf<MyCharacter>()
 
-    private val _error = mutableStateOf<String?>(null)
-    val error: State<String?> = _error
+    private var currentPage = 1
 
-    private val _selectedCard = mutableStateOf<Int?>(null)
-    val selectedCard: State<Int?> = _selectedCard
+    private var isLastPage = false
+    private var isLoading = false
 
-    fun chooseCard(id: Int){
-        _selectedCard.value = id
-    }
+    fun loadCharacters() {
+        if (isLoading || isLastPage) return
 
-    init {
-        loadCharacters()
-    }
+        isLoading = true
+        charactersStateMutable.value = RequestState.Loading
 
-    private fun loadCharacters() {
         viewModelScope.launch {
-            _isLoading.value = true
-            _error.value = null
-            try {
-                val result = repository.getAllCharacters()
-                _characters.value = result
-            } catch (e: Exception) {
-                _error.value = e.message ?: "Ошибка загрузки"
-            } finally {
-                _isLoading.value = false
+            val request = repository.getAllCharacters(page = currentPage)
+            when (request) {
+                is RequestState.Success -> {
+                    if (request.data.isEmpty()) {
+                        isLastPage = true
+                    } else {
+                        charactersList.addAll(request.data)
+                        charactersStateMutable.value = RequestState.Success(charactersList.toList())
+                        currentPage++
+                    }
+                }
+                is RequestState.Error -> {
+                    charactersStateMutable.value = RequestState.Error(request.message)
+                }
+                else -> {}
             }
+            isLoading = false
         }
     }
 }

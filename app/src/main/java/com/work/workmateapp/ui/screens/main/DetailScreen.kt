@@ -17,7 +17,7 @@ import org.koin.androidx.compose.koinViewModel
 fun DetailScreen(
     mainViewModel: MainViewModel,
 ) {
-    val id =  mainViewModel.selectedCard.value
+//    val id =  mainViewModel.selectedCard.value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -26,7 +26,7 @@ fun DetailScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Detail $id"
+            text = "Detail id"
         )
     }
 }

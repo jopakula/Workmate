@@ -1,8 +1,5 @@
 package com.work.data.network.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class MyCharacter(
     val created: String,
     val episode: List<String>,
@@ -17,13 +14,13 @@ data class MyCharacter(
     val type: String,
     val url: String
 ){
-    @Serializable
+
     data class Location(
         val name: String,
         val url: String
     )
 
-    @Serializable
+
     data class Origin(
         val name: String,
         val url: String
