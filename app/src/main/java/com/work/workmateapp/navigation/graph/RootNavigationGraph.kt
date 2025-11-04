@@ -9,9 +9,12 @@ import com.work.workmateapp.navigation.Graph
 import com.work.workmateapp.navigation.screens.MainScreens
 import com.work.workmateapp.ui.screens.main.DetailScreen
 import com.work.workmateapp.ui.screens.main.MainScreen
+import com.work.workmateapp.ui.screens.main.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RootNavigationGraph(rootNavController: NavHostController) {
+    val mainViewModel: MainViewModel = koinViewModel()
     NavHost(
         navController = rootNavController,
         route = Graph.ROOT,
@@ -30,14 +33,17 @@ fun RootNavigationGraph(rootNavController: NavHostController) {
                 MainScreen(
                     onClick = {
                         rootNavController.navigate(MainScreens.Detail.route)
-                    }
+                    },
+                    mainViewModel = mainViewModel
                 )
             }
 
             composable(
                 route = MainScreens.Detail.route
             ) {
-                DetailScreen()
+                DetailScreen(
+                    mainViewModel = mainViewModel
+                )
             }
         }
 
