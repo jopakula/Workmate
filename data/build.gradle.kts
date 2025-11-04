@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.devtools.ksp)
 }
 
 android {
@@ -48,6 +49,15 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.paging)
+
+    // Paging
+    implementation(libs.androidx.paging.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
